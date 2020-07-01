@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!--SelectOneMenu-1, SelectManyButton-1, SelectManyCheckbox-1, SelectOneButton-1, SelectCheckboxMenu-0, TriStateCheckbox-1 -->
+    <h:head>
+        <title></title>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:tabMenu activeIndex="#{param.i}">
+
+                <p:menuitem value="Ejemplo1" outcome="tarea">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="Antes" outcome="antes">
+                    <f:param name="i" value="1" />
+                </p:menuitem>
+                <p:menuitem value="Ejemplo2" outcome="ejemplo2">
+                    <f:param name="i" value="2" />
+                </p:menuitem>
+                <p:menuitem value="Ejemplo3" outcome="ejemplo3">
+                    <f:param name="i" value="3" />
+                </p:menuitem>
+                <p:menuitem value="Ejemplo4" outcome="ejemplo4">
+                    <f:param name="i" value="4" />
+                </p:menuitem>
+                <p:menuitem value="Ejemplo5" outcome="ejemplo5">
+                    <f:param name="i" value="5" />
+                </p:menuitem>
+            </p:tabMenu>
+        </h:form>
+
+
+        <p:growl life="1500">
+            <p:autoUpdate/>
+        </p:growl>
+
+        <p:messages>
+            <p:autoUpdate />
+        </p:messages>
+
+        <h1>
+            <center>EJEMPLO4</center>
+
+        </h1>
+
+
+
+        <h:form>
+            <h3 style="margin-top:0px">Basic Layout</h3>
+            <p:selectManyCheckbox id="basic" value="#{checkboxView.selectedConsoles}">
+                <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+            </p:selectManyCheckbox>
+
+            <h3>Grid Layout</h3>
+            <p:selectManyCheckbox id="grid" value="#{checkboxView.selectedCities}" layout="grid" columns="3">
+                <f:selectItems value="#{checkboxView.cities}" var="city" itemLabel="#{city}" itemValue="#{city}" />
+            </p:selectManyCheckbox>
+
+            <h3>Grouped</h3>
+            <p:selectManyCheckbox id="grid3" value="#{checkboxView.selectedCars}" layout="pageDirection" columns="1">
+                <f:selectItems value="#{checkboxView.cars}" var="car" itemLabel="#{car}" itemValue="#{car}" />
+            </p:selectManyCheckbox>
+
+            <p:separator />
+
+            <p:commandButton value="Submit" update="display" oncomplete="PF('dlg').show()" icon="pi pi-check" />
+
+            <p:dialog  header="Values" modal="true" showEffect="clip" widgetVar="dlg" resizable="false">
+                <p:outputPanel id="display">
+                    <p:dataList value="#{checkboxView.selectedConsoles}" var="console">
+                        <f:facet name="header">
+                            Basic
+                        </f:facet>
+                        #{console}
+                    </p:dataList>
+                    <p:dataList value="#{checkboxView.selectedCities}" var="city">
+                        <f:facet name="header">
+                            Grid
+                        </f:facet>
+                        #{city}
+                    </p:dataList>
+
+                    <p:dataList value="#{checkboxView.selectedCars}" var="car">
+                        <f:facet name="header">
+                            Cars
+                        </f:facet>
+                        #{car}
+                    </p:dataList>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="FormTarea"> 
+
+
+
+
+        </h:form>
+
+
+
+        <h3>
+            para editar y/o eliminar click derecho
+            probando
+        </h3>
+        <!--lista-->
+
+        <h:form id="FormTblTarea">
+            <p:dataTable id="tblTarea"
+                         value="#{tareaC.lstTarea}"
+                         var="tarea"
+                         selection="#{tareaC.selectedTarea}"
+                         selectionMode="single"
+                         rowKey="#{tarea.CODTAR}"
+                         paginator="true"
+                         rows="50"
+                         rowsPerPageTemplate="5,10,15,50">
+
+                <p:column headerText="" style="width: 45px">
+                    <p:outputLabel value="#{tarea.CODTAR}"/>
+                </p:column>
+
+                <p:column headerText="dato1" style="width: 250px"> 
+                    <h:outputText value="#{tarea.DATO1 eq 'H' ? 'Humano' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO1 eq 'V' ? 'Vegetal' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO1 eq 'P' ? 'Pokemon' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO1 eq 'A' ? 'Animal' :  ''}"/>
+
+                </p:column>
+                <p:column headerText="dato2" style="width: 250px"> 
+                    <h:outputText value="#{tarea.DATO2 eq 'J' ? 'Joven' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO2 eq 'V' ? 'Viejo' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO2 eq 'A' ? 'Anciano' :  ''}"/>
+                </p:column>
+                <p:column headerText="dato3" style="width: 250px"> 
+                    <h:outputText value="#{tarea.DATO3 eq 'T' ? 'Tierra' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO3 eq 'M' ? 'Marte' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO3 eq 'O' ? 'Otro' :  ''}"/>
+                </p:column>
+                <p:column headerText="dato4" style="width: 250px"> 
+                    <h:outputText value="#{tarea.DATO4 eq '0' ? 'No Especifico' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO4 eq '1' ? 'Acepto' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO4 eq '2' ? 'No Acepto' :  ''}"/>
+                </p:column>
+
+            </p:dataTable>
+            <p:contextMenu for="tblTarea">
+                <p:menuitem value="EDITAR" oncomplete="PF('dlgModTarea').show()" update="FormDialogModTar"/>
+                <p:menuitem value="ELIMINAR" actionListener="#{tareaC.eliminarTarea()}" update="tblTarea">
+                    <p:confirm header="CONFIRMACIÓN" message="¿Está seguro de eliminar este registro?"/>
+                </p:menuitem>
+            </p:contextMenu>
+        </h:form>
+        <!--editar-->
+        <p:dialog header="ACTUALIZAR DATOS" widgetVar="dlgModTarea" resizable="false" modal="true"> 
+            <h:form id="FormDialogModTar">
+                <p:panelGrid columns="2">
+
+
+                    <p:outputLabel value="DATO1:"/>
+                    <p:inputText value="#{tareaC.selectedTarea.DATO1}" maxlength="50" required="false"/>
+                    <p:outputLabel value="DATO2:"/>
+                    <p:inputText value="#{tareaC.selectedTarea.DATO2}" required="false"/>
+                    <p:outputLabel value="DATO3:"/>
+                    <p:inputText value="#{tareaC.selectedTarea.DATO3}" required="false"/>
+                    <p:outputLabel value="DATO4:"/>
+                    <p:inputText value="#{tareaC.selectedTarea.DATO4}" required="false"/>
+
+                    <p:commandButton value="MODIFICAR" actionListener="#{tareaC.modificarTarea()}" oncomplete="PF('dlgModTarea').hide()" update="FormTblTarea:tblTarea" />
+                    <p:commandButton value="CANCELAR" oncomplete="PF('dlgModTarea').hide()"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <h:form>
+            <p:confirmDialog global="true">
+                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+        </h:form>
+    </h:body>
+</html>
+

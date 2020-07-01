@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!--SelectOneMenu-1, SelectManyButton-0, SelectManyCheckbox-0, SelectOneButton-1, SelectCheckboxMenu-0, TriStateCheckbox-1 -->
+    <h:head>
+        <title>ejemplo3</title>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:tabMenu activeIndex="#{param.i}">
+
+                <p:menuitem value="---DataList--" outcome="tarea">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="---DataGrid--" outcome="antes">
+                    <f:param name="i" value="1" />
+                </p:menuitem>
+                <p:menuitem value="---DataView--" outcome="ejemplo2">
+                    <f:param name="i" value="2" />
+                </p:menuitem>
+                <p:menuitem value="---Repeat---" outcome="ejemplo3">
+                    <f:param name="i" value="3" />
+                </p:menuitem>
+                <p:menuitem value="Ejemplo4" outcome="ejemplo4">
+                    <f:param name="i" value="4" />
+                </p:menuitem>
+            </p:tabMenu>
+        </h:form>
+
+
+        <p:growl life="1500">
+            <p:autoUpdate/>
+        </p:growl>
+
+        <p:messages>
+            <p:autoUpdate />
+        </p:messages>
+
+        <h1>
+            <center>---Repeat---</center>
+
+        </h1>
+
+        <h:form id="FormTarea"> 
+            <p:panelGrid columns="2" >
+
+
+
+                <p:outputLabel  value="Tipo de ser vivo" />
+                <p:selectOneMenu  value="#{tareaC.tarea.DATO1}" style="width:125px">
+                    <f:selectItem itemLabel="Humano" itemValue="H" />
+                    <f:selectItem itemLabel="Vegetal" itemValue="V" />
+                    <f:selectItem itemLabel="Pokemon" itemValue="p" />
+                    <f:selectItem itemLabel="Animal" itemValue="A" />
+                </p:selectOneMenu>
+
+
+                <p:outputLabel value="Rango de edad "/>
+                <p:selectOneRadio value="#{tareaC.tarea.DATO2}" 
+                                  unselectable="false" required="true">
+                    <f:selectItem itemLabel="10 - 20" itemValue="J"/>
+                    <f:selectItem itemLabel="21 - 40" itemValue="A" />
+                    <f:selectItem itemLabel="41 - 80" itemValue="V" />
+                </p:selectOneRadio>
+
+                <h:outputText value="Donde vives" />
+                <p:selectOneButton value="#{tareaC.tarea.DATO3}" >
+                    <f:selectItem itemLabel="Tierra" itemValue="T" />
+                    <f:selectItem itemLabel="Marte" itemValue="M" />
+                    <f:selectItem itemLabel="Otro" itemValue="O" />
+                </p:selectOneButton>
+
+
+                <h:outputText class="pi pi-check" value="Aceptas los terminos " />  
+                <p:triStateCheckbox value="#{tareaC.tarea.DATO4}" validator="#{tareaC.validar}" validatorMessage="No ingresaste los terminos"  />
+
+
+
+                <p:commandButton value="Registrar" actionListener="#{tareaC.registrarTarea()}" 
+                                 update="FormTarea FormTblTarea:tblTarea" />
+
+            </p:panelGrid>
+
+
+
+        </h:form>
+
+
+
+        <h3>
+            para editar y/o eliminar click derecho
+            probando
+        </h3>
+        <!--lista-->
+
+
+        <!--====================-->
+        <style type="text/css">
+            .logo {
+                width: 5%
+            }
+
+            .detail {
+                width: 95%;
+                padding-left: 25px;
+            }
+
+            .detail td {
+                font-size: 24px;
+            }
+        </style>
+
+
+        <h:form id="form">
+            <p:repeat value="#{tareaC.lstTarea}" var="car">
+                <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">
+                    <p:commandLink update=":form:carDetail" oncomplete="PF('carDialog').show()">
+                        <f:setPropertyActionListener value="#{car}" target="#{tareaC.selectedTarea}" />
+                        
+                    </p:commandLink>
+
+                    <p:outputPanel>
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="Id:" />
+                            <h:outputText value="#{car.CODTAR}" style="font-weight: bold"/>
+
+                            <h:outputText value="Year:" />
+                            <h:outputText value="#{car.DATO1}" style="font-weight: bold"/>
+
+                            <h:outputText value="Color:" />
+                            <h:outputText value="#{car.DATO2}" style="font-weight: bold"/>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </h:panelGrid>
+                <hr />
+            </p:repeat>
+
+            <p:dialog header="Car Info" widgetVar="carDialog" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                <p:outputPanel id="carDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty tareaC.selectedTarea}" columnClasses="label,value">
+                      
+
+                        <h:outputText value="Id:" />
+                        <h:outputText value="#{tareaC.selectedTarea.DATO3}" />
+
+                        <h:outputText value="Year" />
+                        <h:outputText value="#{tareaC.selectedTarea.DATO4}" />
+
+                        
+                        <h:outputText value="Price" />
+                        <h:outputText value="\$#{tareaC.selectedTarea.ESTDEM}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+        <!--====================-->
+        <h:form id="FormTblTarea">
+            <p:dataTable id="tblTarea"
+                         value="#{tareaC.lstTarea}"
+                         var="tarea"
+                         selection="#{tareaC.selectedTarea}"
+                         selectionMode="single"
+                         rowKey="#{tarea.CODTAR}"
+                         paginator="true"
+                         rows="50"
+                         rowsPerPageTemplate="5,10,15,50">
+
+                <p:column headerText="" style="width: 45px">
+                    <p:outputLabel value="#{tarea.CODTAR}"/>
+                </p:column>
+
+                <p:column headerText="dato1" style="width: 250px"> 
+                    <h:outputText value="#{tarea.DATO1 eq 'H' ? 'Humano' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO1 eq 'V' ? 'Vegetal' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO1 eq 'P' ? 'Pokemon' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO1 eq 'A' ? 'Animal' :  ''}"/>
+
+                </p:column>
+                <p:column headerText="dato2" style="width: 250px"> 
+                    <h:outputText value="#{tarea.DATO2 eq 'J' ? 'Joven' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO2 eq 'V' ? 'Viejo' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO2 eq 'A' ? 'Anciano' :  ''}"/>
+                </p:column>
+                <p:column headerText="dato3" style="width: 250px"> 
+                    <h:outputText value="#{tarea.DATO3 eq 'T' ? 'Tierra' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO3 eq 'M' ? 'Marte' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO3 eq 'O' ? 'Otro' :  ''}"/>
+                </p:column>
+                <p:column headerText="dato4" style="width: 250px"> 
+                    <h:outputText value="#{tarea.DATO4 eq '0' ? 'No Especifico' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO4 eq '1' ? 'Acepto' :  ''}"/>
+                    <h:outputText value="#{tarea.DATO4 eq '2' ? 'No Acepto' :  ''}"/>
+                </p:column>
+
+            </p:dataTable>
+            <p:contextMenu for="tblTarea">
+                <p:menuitem value="EDITAR" oncomplete="PF('dlgModTarea').show()" update="FormDialogModTar"/>
+                <p:menuitem value="ELIMINAR" actionListener="#{tareaC.eliminarTarea()}" update="tblTarea">
+                    <p:confirm header="CONFIRMACIÓN" message="¿Está seguro de eliminar este registro?"/>
+                </p:menuitem>
+            </p:contextMenu>
+        </h:form>
+        <!--editar-->
+        <p:dialog header="ACTUALIZAR DATOS" widgetVar="dlgModTarea" resizable="false" modal="true"> 
+            <h:form id="FormDialogModTar">
+                <p:panelGrid columns="2">
+
+
+                    <p:outputLabel value="DATO1:"/>
+                    <p:inputText value="#{tareaC.selectedTarea.DATO1}" maxlength="50" required="false"/>
+                    <p:outputLabel value="DATO2:"/>
+                    <p:inputText value="#{tareaC.selectedTarea.DATO2}" required="false"/>
+                    <p:outputLabel value="DATO3:"/>
+                    <p:inputText value="#{tareaC.selectedTarea.DATO3}" required="false" />
+                    <p:outputLabel value="DATO4:"/>
+                    <p:inputText value="#{tareaC.selectedTarea.DATO4}" required="false"/>
+
+                    <p:commandButton value="MODIFICAR" actionListener="#{tareaC.modificarTarea()}" oncomplete="PF('dlgModTarea').hide()" update="FormTblTarea:tblTarea" />
+                    <p:commandButton value="CANCELAR" oncomplete="PF('dlgModTarea').hide()"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <h:form>
+            <p:confirmDialog global="true">
+                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+        </h:form>
+    </h:body>
+</html>
+

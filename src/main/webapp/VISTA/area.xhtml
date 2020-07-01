@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:head>
+        <title>Tupa</title>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:tabMenu activeIndex="#{param.i}">
+
+                 <p:menuitem value="AREA" outcome="area">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="TAREA" outcome="tarea">
+                    <f:param name="i" value="6" />
+                </p:menuitem>
+                <p:menuitem value="TUPA" outcome="tupa">
+                    <f:param name="i" value="6" />
+                </p:menuitem>
+
+            </p:tabMenu>
+        </h:form>
+
+
+        <h1>
+            INGRESAR DATOS DE TUPA
+        </h1>
+
+        <!--REGISTRAR AREA-->
+        <h:form id="FormDemo">
+            <p:panelGrid columns="4" >
+                <p:outputLabel value="Observacion"/>
+                <p:inputText value="#{demoC.demo.DATO1}"/>
+
+                <p:outputLabel value="Observacion"/>
+                <p:inputText value="#{demoC.demo.DATO2}"/>
+
+                <p:outputLabel value="Observacion"/>
+                <p:inputText value="#{demoC.demo.DATO3}"/>
+
+                <p:outputLabel value="Observacion"/>
+                <p:inputText value="#{demoC.demo.DATO4}"/>
+
+
+                <p:commandButton value="REGISTRAR" actionListener="#{demoC.registrarDemo()}" update="FormDemo FormTblDemo:tblDemo"/>  
+            </p:panelGrid>
+
+
+        </h:form>
+        <!--         listar   -->
+        <h:form id="FormTblDemo">
+            <p:dataTable id="tblDemo"
+                         value="#{demoC.lstDemo}"
+                         var="demo"
+                         selection="#{demoC.selecteDemo}"
+                         selectionMode="single"
+                         rowKey="#{demo.CODDEM}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="5,10,15">
+
+
+
+                <p:column headerText="Tipo de documento"  >
+                    <h:outputText value="#{demo.DATO1 eq '1' ? 'UNO' :  ''}"/>
+                    <h:outputText value="#{demo.DATO1 eq '2' ? 'DOS' :  ''}"/>
+                    <h:outputText value="#{demo.DATO1 eq '3' ? 'TRES' :  ''}"/>
+                    <h:outputText value="#{demo.DATO1 eq '4' ? 'CUATRO' :  ''}"/>
+                </p:column>
+
+            </p:dataTable>
+
+            <p:contextMenu for="tblDemo">
+                <p:menuitem value="EDITAR" oncomplete="PF('dlgModDemo').show()" update="FormDialogModDem"/>
+                <p:menuitem value="ELIMINAR" actionListener="#{demoC.eliminarDemo()}" update="FormTblDemo:tblDemo">
+                    <p:confirm header="CONFIRMACIÓN" message="¿Está seguro de eliminar este registro?"/>
+                </p:menuitem>
+            </p:contextMenu>
+        </h:form>
+
+
+        <p:dialog header="ACTUALIZAR DATOS" widgetVar="dlgModDemo" resizable="false" modal="true"> 
+            <h:form id="FormDialogModDem">
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel value="NUMERO"/>
+                    <h:selectOneRadio value="#{demoC.selecteDemo.DATO1}">
+                        <f:selectItem itemLabel="UNO" itemValue="1" />
+                        <f:selectItem itemLabel="DOS" itemValue="2" />
+                        <f:selectItem itemLabel="TRES" itemValue="3" />
+                        <f:selectItem itemLabel="CUATRO" itemValue="4"/>
+                    </h:selectOneRadio>
+
+                    <p:commandButton value="MODIFICAR" actionListener="#{documentoC.modificarDocumento()}" update=":FormTblDemo:tblDemo" oncomplete="PF('dlgModDemo').hide()"/>
+                    <p:commandButton value="CANCELAR" oncomplete="PF('dlgModDemo').hide()"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+
+        <h:form>
+            <p:confirmDialog global="true">
+                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+        </h:form>
+    </h:body>
+</html>
